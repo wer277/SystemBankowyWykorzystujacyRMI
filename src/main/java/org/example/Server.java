@@ -3,6 +3,9 @@ package org.example;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * Class for starting the RMI server.
+ */
 public class Server {
     public static void main(String[] args) {
         try {

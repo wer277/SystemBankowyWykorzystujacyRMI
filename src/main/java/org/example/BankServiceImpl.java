@@ -4,10 +4,18 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
+/**
+ * Implementation of the remote bank service.
+ */
 public class BankServiceImpl extends UnicastRemoteObject implements BankService {
 
     private Map<String, User> users;
 
+    /**
+     * Creates a new bank service implementation.
+     *
+     * @throws RemoteException if there is an RMI communication issue
+     */
     public BankServiceImpl() throws RemoteException {
         super();
         users = new HashMap<>();
@@ -104,6 +112,11 @@ public class BankServiceImpl extends UnicastRemoteObject implements BankService 
         return false;
     }
 
+    /**
+     * Generates a list of transfer passwords.
+     *
+     * @return a list of transfer passwords
+     */
     private List<String> generatePasswords() {
         List<String> passwords = new ArrayList<>();
         Random random = new Random();

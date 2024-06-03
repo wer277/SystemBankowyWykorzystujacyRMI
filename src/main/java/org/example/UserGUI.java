@@ -1,4 +1,5 @@
 package org.example;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,18 +7,31 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class representing the bank user GUI.
+ */
 public class UserGUI {
     private final BankService bankService;
     private final String username;
     private final ClientGUI clientGUI;
     private JFrame frame;
 
+    /**
+     * Creates a new user GUI.
+     *
+     * @param bankService instance of the bank service
+     * @param username user's username
+     * @param clientGUI instance of the client GUI
+     */
     public UserGUI(BankService bankService, String username, ClientGUI clientGUI) {
         this.bankService = bankService;
         this.username = username;
         this.clientGUI = clientGUI;
     }
 
+    /**
+     * Initializes the user GUI.
+     */
     public void initialize() {
         frame = new JFrame("User Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,9 +129,12 @@ public class UserGUI {
         frame.setVisible(true);
     }
 
+    /**
+     * Transfers money to another user's account.
+     */
     private void transferMoney() {
         JFrame transferFrame = new JFrame("Transfer Money");
-        transferFrame.setSize(300, 250);
+        transferFrame.setSize(300, 300); // Increased size to fit all components
         transferFrame.setLocationRelativeTo(null);  // Center the frame
 
         JLabel toUserLabel = new JLabel("To User:");
@@ -129,35 +146,36 @@ public class UserGUI {
         JLabel passwordIndexLabel = new JLabel();  // Label to show which password index to use
         JButton transferButton = new JButton("Transfer");
 
+        // Generate the password index before the transfer button is clicked
+        List<String> passwordList;
+        int passwordIndex;
+        try {
+            passwordList = bankService.getTransferPasswordList(username);
+            passwordIndex = new Random().nextInt(passwordList.size()) + 1; // Random index (1-based)
+            passwordIndexLabel.setText("Enter password #" + passwordIndex + " from the list.");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return;
+        }
+
         transferButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     String toUser = toUserField.getText();
                     double amount = Double.parseDouble(amountField.getText());
-                    List<String> passwordList = bankService.getTransferPasswordList(username);
-                    int passwordIndex = new Random().nextInt(passwordList.size()) + 1;
                     String password = new String(passwordField.getPassword());
-                    String correctPassword = passwordList.get(passwordIndex - 1);
 
-                    if (password.equals(correctPassword)) {
-                        boolean success = bankService.transfer(username, toUser, amount, passwordIndex, password);
-                        if (success) {
-                            JOptionPane.showMessageDialog(transferFrame, "Transfer successful!");
-                        } else {
-                            JOptionPane.showMessageDialog(transferFrame, "Transfer failed.");
-                        }
+                    if (bankService.transfer(username, toUser, amount, passwordIndex, password)) {
+                        JOptionPane.showMessageDialog(transferFrame, "Transfer successful!");
                     } else {
-                        JOptionPane.showMessageDialog(transferFrame, "Invalid password.");
+                        JOptionPane.showMessageDialog(transferFrame, "Invalid password or transfer failed.");
                     }
                 } catch (RemoteException ex) {
                     ex.printStackTrace();
                 }
             }
         });
-
-        // Set the text of the passwordIndexLabel to show which password index to use
-        passwordIndexLabel.setText("Enter password #" + (new Random().nextInt(10) + 1) + " from the list.");
 
         GroupLayout layout = new GroupLayout(transferFrame.getContentPane());
         transferFrame.getContentPane().setLayout(layout);
@@ -194,6 +212,9 @@ public class UserGUI {
         transferFrame.setVisible(true);
     }
 
+    /**
+     * Checks the user's account balance.
+     */
     private void checkBalance() {
         try {
             double balance = bankService.getBalance(username);
@@ -203,6 +224,9 @@ public class UserGUI {
         }
     }
 
+    /**
+     * Displays the user's transaction history.
+     */
     private void viewTransactions() {
         try {
             List<String> transactions = bankService.getTransactionHistory(username);
@@ -241,6 +265,9 @@ public class UserGUI {
         }
     }
 
+    /**
+     * Displays the user's transfer passwords.
+     */
     private void viewPasswords() {
         try {
             List<String> passwordList = bankService.getTransferPasswordList(username);
@@ -279,6 +306,9 @@ public class UserGUI {
         }
     }
 
+    /**
+     * Changes the user's password.
+     */
     private void changePassword() {
         JFrame changePasswordFrame = new JFrame("Change Password");
         changePasswordFrame.setSize(300, 150);
@@ -330,6 +360,9 @@ public class UserGUI {
         changePasswordFrame.setVisible(true);
     }
 
+    /**
+     * Deletes the user's account.
+     */
     private void deleteAccount() {
         try {
             boolean success = bankService.deleteUser(username);

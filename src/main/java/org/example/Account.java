@@ -1,44 +1,42 @@
 package org.example;
 
 /**
- * Klasa reprezentujaca konto bankowe.
+ * Class representing a bank account.
  */
-
 public class Account {
     private double balance;
 
     /**
-     * Tworzy nowe konto z poczatkowym stanem.
+     * Creates a new account with an initial balance.
      *
-     * @param initialBalance poczatkowy stan konta
+     * @param initialBalance the initial balance of the account
      */
-
     public Account(double initialBalance) {
         this.balance = initialBalance;
     }
 
     /**
-     * Zwraca stan konta.
+     * Returns the balance of the account.
      *
-     * @return stan konta
+     * @return the account balance
      */
-
     public double getBalance() {
         return balance;
     }
 
     /**
-     * Dodaje kwote do stanu konta.
+     * Adds an amount to the account balance.
      *
-     * @param amount kwota do dodania
+     * @param amount the amount to add
      */
     public void deposit(double amount) {
         balance += amount;
     }
+
     /**
-     * Odejmuje kwote od stanu konta.
+     * Subtracts an amount from the account balance.
      *
-     * @param amount kwota do odjęcia
+     * @param amount the amount to subtract
      */
     public void withdraw(double amount) {
         balance -= amount;

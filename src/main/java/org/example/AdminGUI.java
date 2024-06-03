@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Klasa reprezentujaca GUI administratora banku.
+ * Class representing the bank administrator GUI.
  */
-
 public class AdminGUI {
     private final BankService bankService;
     private final ClientGUI clientGUI;
@@ -20,10 +19,10 @@ public class AdminGUI {
     private JTextField balanceField;
 
     /**
-     * Tworzy nowe GUI administratora.
+     * Creates a new administrator GUI.
      *
-     * @param bankService instancja serwisu bankowego
-     * @param clientGUI instancja GUI klienta
+     * @param bankService instance of the bank service
+     * @param clientGUI instance of the client GUI
      */
     public AdminGUI(BankService bankService, ClientGUI clientGUI) {
         this.bankService = bankService;
@@ -31,7 +30,7 @@ public class AdminGUI {
     }
 
     /**
-     * Inicjalizuje GUI administratora.
+     * Initializes the administrator GUI.
      */
     public void initialize() {
         frame = new JFrame("Admin Panel");
@@ -101,7 +100,7 @@ public class AdminGUI {
     }
 
     /**
-     * Tworzy nowe konto uzytkownika.
+     * Creates a new user account.
      */
     private void createAccount() {
         JFrame createAccountFrame = new JFrame("Create Account");
@@ -170,7 +169,7 @@ public class AdminGUI {
     }
 
     /**
-     * Wyswietla liste uzytkownikow.
+     * Displays the list of users.
      */
     private void viewUsers() {
         try {
@@ -211,7 +210,7 @@ public class AdminGUI {
     }
 
     /**
-     * Zmienia haslo administratora.
+     * Changes the administrator password.
      */
     private void changePassword() {
         JFrame changePasswordFrame = new JFrame("Change Password");
@@ -229,7 +228,7 @@ public class AdminGUI {
                     String newPassword = new String(newPasswordField.getPassword());
                     boolean success = bankService.changePassword("admin", newPassword);
                     if (success) {
-                        clientGUI.updateAdminPassword(newPassword);  // Aktualizacja hasła w ClientGUI
+                        clientGUI.updateAdminPassword(newPassword);  // Update password in ClientGUI
                         JOptionPane.showMessageDialog(changePasswordFrame, "Password changed successfully!");
                     } else {
                         JOptionPane.showMessageDialog(changePasswordFrame, "Password change failed.");
@@ -266,9 +265,9 @@ public class AdminGUI {
     }
 
     /**
-     * Generuje liste hasel transferowych.
+     * Generates a list of transfer passwords.
      *
-     * @return lista hasel transferowych
+     * @return a list of transfer passwords
      */
     private List<String> generatePasswords() {
         List<String> passwords = new ArrayList<>();

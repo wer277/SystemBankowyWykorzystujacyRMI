@@ -6,12 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import com.formdev.flatlaf.FlatLightLaf;
 
-
-
+/**
+ * Class representing the bank client's GUI.
+ */
 public class ClientGUI {
     private JFrame frame;
     private BankService bankService;
-    private String adminPassword = "admin123";  // Początkowe hasło admina
+    private String adminPassword = "admin123";  // Initial admin password
 
     public static void main(String[] args) {
         try {
@@ -23,10 +24,18 @@ public class ClientGUI {
         }
     }
 
+    /**
+     * Creates a new client GUI.
+     *
+     * @param bankService instance of the bank service
+     */
     public ClientGUI(BankService bankService) {
         this.bankService = bankService;
     }
 
+    /**
+     * Initializes the client GUI.
+     */
     public void initialize() {
         frame = new JFrame("Bank Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,10 +122,18 @@ public class ClientGUI {
         frame.setVisible(true);
     }
 
+    /**
+     * Displays the GUI.
+     */
     public void show() {
         frame.setVisible(true);
     }
 
+    /**
+     * Updates the admin password.
+     *
+     * @param newPassword the new admin password
+     */
     public void updateAdminPassword(String newPassword) {
         this.adminPassword = newPassword;
     }
